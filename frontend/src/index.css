@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@theme {
+	--color-navy: #0f4571;
+	--color-dark: #3a3132;
+	--color-blued: #386dbd;
+	--color-bluel: #009ddd;
+	--color-celest: #05d3f8;
+}
+
+#root {
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-style: none;
+}
