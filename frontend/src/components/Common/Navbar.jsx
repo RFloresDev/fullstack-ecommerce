@@ -5,8 +5,16 @@ import {
 	HiBars3BottomRight,
 } from "react-icons/hi2";
 import SearchBar from "./SearchBar";
+import CartBar from "../Layout/CartBar";
+import { useState } from "react";
 
 const Navbar = () => {
+	const [latBarOpen, setLatBarOpen] = useState(false);
+
+	const toggleCartBar = () => {
+		setLatBarOpen(!latBarOpen);
+	};
+
 	return (
 		<>
 			<nav className=" container mx-auto flex items-center justify-between py-4 px-6">
@@ -44,7 +52,7 @@ const Navbar = () => {
 					<Link to="/profile" className="hover:text-black">
 						<HiOutlineUser className="h-6 w-6 text-gray-700 " />
 					</Link>
-					<button className="relative hover:text-black">
+					<button onClick={toggleCartBar} className="relative hover:text-black">
 						<HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
 						<span className="absolute -top-1 -right-3 bg-navy text-white text-xs rounded-full px-2 py-0.5">
 							4
@@ -59,6 +67,7 @@ const Navbar = () => {
 					</button>
 				</div>
 			</nav>
+			<CartBar latBarOpen={latBarOpen} toggleCartBar={toggleCartBar} />
 		</>
 	);
 };
