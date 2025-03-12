@@ -7,9 +7,15 @@ import {
 import SearchBar from "./SearchBar";
 import CartBar from "../Layout/CartBar";
 import { useState } from "react";
+import { IoMdClose } from "react-icons/io";
 
 const Navbar = () => {
 	const [latBarOpen, setLatBarOpen] = useState(false);
+	const [navLatBarOpen, setNavLatBarOpen] = useState(false);
+
+	const toggleNavLatBar = () => {
+		setNavLatBarOpen(!navLatBarOpen);
+	};
 
 	const toggleCartBar = () => {
 		setLatBarOpen(!latBarOpen);
@@ -62,12 +68,53 @@ const Navbar = () => {
 						<SearchBar />
 					</div>
 
-					<button className="md:hidden hover:text-black">
+					<button
+						onClick={toggleNavLatBar}
+						className="md:hidden hover:text-black">
 						<HiBars3BottomRight className="h-6 w-6 text-gray-700" />
 					</button>
 				</div>
 			</nav>
 			<CartBar latBarOpen={latBarOpen} toggleCartBar={toggleCartBar} />
+			<div
+				className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+					navLatBarOpen ? "translate-x-0" : "-translate-x-full"
+				}`}>
+				<div className="flex justify-end p-4">
+					<button onClick={toggleNavLatBar}>
+						<IoMdClose className="h-6 w-6 text-gray-600" />
+					</button>
+				</div>
+				<div className="p-4">
+					<h2 className="text-xl font-bold mb-4">Menu</h2>
+					<nav className="space-y-4">
+						<Link
+							to="#"
+							onClick={toggleNavLatBar}
+							className="block font-semibold text-gray-600 hover:text-black">
+							Men
+						</Link>
+						<Link
+							to="#"
+							onClick={toggleNavLatBar}
+							className="block font-semibold text-gray-600 hover:text-black">
+							Women
+						</Link>
+						<Link
+							to="#"
+							onClick={toggleNavLatBar}
+							className="block font-semibold text-gray-600 hover:text-black">
+							Top Wear
+						</Link>
+						<Link
+							to="#"
+							onClick={toggleNavLatBar}
+							className="block font-semibold text-gray-600 hover:text-black">
+							Bottom Wear
+						</Link>
+					</nav>
+				</div>
+			</div>
 		</>
 	);
 };
