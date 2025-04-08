@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
 	name: "Stylish Jacket",
@@ -26,13 +28,36 @@ const ProductDetails = () => {
 	const [selectedSize, setSelectedSize] = useState("");
 	const [selectedColor, setSelectedColor] = useState("");
 	const [quantity, setQuantity] = useState(1);
-	const [isButtonDisbled, setIsButtonDisabled] = useState(false);
+	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 	useEffect(() => {
 		if (selectedProduct?.images?.length > 0) {
 			setMainImage(selectedProduct.images[0].url);
 		}
 	}, [selectedProduct]);
+
+	const handleQuantityChange = (action) => {
+		if (action === "plus") {
+			setQuantity((prev) => prev + 1);
+		} else if (action === "minus" && quantity > 1) {
+			setQuantity((prev) => prev - 1);
+		}
+	};
+
+	const handleAddToCart = () => {
+		if (!selectedSize || !selectedColor) {
+			toast.error("Please select size and color before adding to cart.", {
+				duration: 1000,
+			});
+			return;
+		}
+		setIsButtonDisabled(true);
+
+		setTimeout(() => {
+			toast.success("Product added to cart successfully!", { duration: 1000 });
+			setIsButtonDisabled(false);
+		}, 500);
+	};
 
 	return (
 		<div className="p-6">
@@ -69,7 +94,9 @@ const ProductDetails = () => {
 								key={index}
 								src={image.url}
 								alt={image.altText || `Thumbnail ${index}`}
-								className="w-20 h-20 object-cover rounded-lg cursor-pointer border"
+								className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${
+									mainImage === image.url ? "border-black" : "border-gray-300"
+								}`}
 								onClick={() => setMainImage(image.url)}
 							/>
 						))}
@@ -111,7 +138,12 @@ const ProductDetails = () => {
 							<p className="text-gray-700 ">Size:</p>
 							<div className="flex gap-2 mt-2">
 								{selectedProduct.sizes.map((size) => (
-									<button key={size} className="px-4 py-2 rounded border">
+									<button
+										key={size}
+										onClick={() => setSelectedSize(size)}
+										className={`px-4 py-2 rounded border ${
+											selectedSize === size ? "bg-black text-white" : ""
+										}`}>
 										{size}
 									</button>
 								))}
@@ -121,17 +153,28 @@ const ProductDetails = () => {
 						<div className="mb-6">
 							<p className="text-gray-700">Quantity:</p>
 							<div className="flex items-center space-x-4 mt-2">
-								<button className="px-2 py-2 bg-gray-200 rounded text-lg">
+								<button
+									onClick={() => handleQuantityChange("minus")}
+									className="px-2 py-2 bg-gray-200 rounded text-lg">
 									-
 								</button>
-								<span className="text-lg">1</span>
-								<button className="px-2 py-2 bg-gray-200 rounded text-lg">
+								<span className="text-lg">{quantity}</span>
+								<button
+									onClick={() => handleQuantityChange("plus")}
+									className="px-2 py-2 bg-gray-200 rounded text-lg">
 									+
 								</button>
 							</div>
 						</div>
-						<button className="bg-black text-white py-2 px-6 rounded w-full mb-4">
-							ADD TO CART
+						<button
+							onClick={handleAddToCart}
+							disabled={isButtonDisabled}
+							className={`bg-black text-white py-2 px-6 rounded w-full mb-4 ${
+								isButtonDisabled
+									? "cursor-not-allowed opacity-50"
+									: "hover:bg-gray-900"
+							}`}>
+							{isButtonDisabled ? "Adding..." : "ADD TO CART"}
 						</button>
 						<div className="mt-10 text-gray-700">
 							<h3 className="text-xl font-bold mb-4"> Characteristics:</h3>
@@ -149,6 +192,12 @@ const ProductDetails = () => {
 							</table>
 						</div>
 					</div>
+				</div>
+				<div className="mt-20 ">
+					<h2 className="text-2xl text-center font-medium mb-4">
+						You May Also Like
+					</h2>
+					<ProductGrid />
 				</div>
 			</div>
 		</div>
