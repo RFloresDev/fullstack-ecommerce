@@ -192,7 +192,7 @@ export const NewArrivals = () => {
 				onMouseDown={handleMouseDown}
 				onMouseMove={handleMouseMove}
 				onMouseUp={handleMouseUpOrLeave}
-				onMouseKeave={handleMouseUpOrLeave}>
+				onMouseLeave={handleMouseUpOrLeave}>
 				{newArrivals.map((product) => (
 					<div
 						key={product._id}
