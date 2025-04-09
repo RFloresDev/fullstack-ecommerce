@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import featured from "../../assets/featured.jpg";
 const FeaturedCollection = () => {
 	return (
 		<section className="py-16 px-4 lg:px-0">
@@ -15,9 +16,21 @@ const FeaturedCollection = () => {
 						Discover confortable and high-quality clothing which matches your
 						style and effortlessly blends fashion and function.
 					</p>
+					<Link
+						to="/collections/all"
+						className="bg-black text-white px-6 py-3 rounded-lg text-lg hover:bg-gray-800">
+						Shop Now
+					</Link>
+				</div>
+				{/* Right Side */}
+				<div className="lg:w-1/2">
+					<img
+						src={featured}
+						alt="Featured collection"
+						className="w-full h-full object-cover lg:rounded-tr-3xl lg:rounded-br-3xl"
+					/>
 				</div>
 			</div>
-			<Link></Link>
 		</section>
 	);
 };
